@@ -61,21 +61,21 @@ const THEME_PALETTES = {
   },
   flow: {
     dark: [
-      new THREE.Color(0x38bdf8), // Sky Blue
-      new THREE.Color(0x06b6d4), // Teal Cyan
-      new THREE.Color(0x2563eb), // Electric Azure
-      new THREE.Color(0xe0f2fe)  // Ice Blue White
+      new THREE.Color(0x10b981), // Emerald
+      new THREE.Color(0x05df72), // Neon Mint
+      new THREE.Color(0x34d399), // Jade
+      new THREE.Color(0xecfdf5)  // Mint White
     ],
     light: [
-      new THREE.Color(0x0284c7), // Ocean Blue
-      new THREE.Color(0x0891b2), // Deep Teal
-      new THREE.Color(0x1d4ed8), // Cobalt Blue
-      new THREE.Color(0x0c4a6e)  // Deep Navy
+      new THREE.Color(0x059669), // Rich Emerald
+      new THREE.Color(0x047857), // Deep Jade
+      new THREE.Color(0x10b981), // Vivid Green
+      new THREE.Color(0x064e3b)  // Deep Forest Green
     ],
-    line1: { r: 0.02, g: 0.71, b: 0.83 },
-    line2: { r: 0.15, g: 0.39, b: 0.92 },
-    lineLight1: { r: 0.03, g: 0.57, b: 0.7 },
-    lineLight2: { r: 0.11, g: 0.31, b: 0.85 }
+    line1: { r: 0.06, g: 0.72, b: 0.51 },
+    line2: { r: 0.02, g: 0.87, b: 0.45 },
+    lineLight1: { r: 0.02, g: 0.59, b: 0.41 },
+    lineLight2: { r: 0.02, g: 0.47, b: 0.34 }
   }
 };
 
@@ -417,7 +417,8 @@ class WebGLBackground {
   }
 
   setMode(mode) {
-    // Keep WebGL background permanently active
+    this.currentMode = mode || 'dark';
+    this.setTheme(this.currentTheme, this.currentMode);
     const container = document.getElementById('bg-canvas-container');
     if (container) container.classList.remove('hidden');
     this.resume();

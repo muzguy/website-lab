@@ -121,47 +121,98 @@
   --cyber-grid-line-y: rgba(217, 70, 239, 0.05);
 }
 
-/* 4. Flow (Flowing Azure Blue / Cyan Horizon) */
+/* 4. Flow (Green / Emerald Flowing Horizon) */
 [data-theme="flow"] {
-  --accent-primary: #06b6d4;
-  --accent-secondary: #2563eb;
-  --accent-tertiary: #38bdf8;
-  --accent-glow: rgba(6, 182, 212, 0.35);
-  --accent-glow-secondary: rgba(37, 99, 235, 0.35);
-  --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  --accent-gradient-text: linear-gradient(135deg, #ffffff 15%, #bae6fd 45%, #06b6d4 85%);
-  --accent-badge-bg: rgba(6, 182, 212, 0.08);
-  --accent-badge-border: rgba(6, 182, 212, 0.25);
-  --orb-1: radial-gradient(circle, rgba(37, 99, 235, 0.26) 0%, rgba(6, 182, 212, 0.08) 70%, transparent 100%);
-  --orb-2: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, rgba(56, 189, 248, 0.05) 70%, transparent 100%);
-  --orb-3: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
-  --cyber-grid-line-x: rgba(6, 182, 212, 0.05);
-  --cyber-grid-line-y: rgba(37, 99, 235, 0.05);
+  --accent-primary: #10b981;
+  --accent-secondary: #05df72;
+  --accent-tertiary: #34d399;
+  --accent-glow: rgba(16, 185, 129, 0.35);
+  --accent-glow-secondary: rgba(5, 223, 114, 0.35);
+  --accent-gradient: linear-gradient(135deg, #05df72 0%, #10b981 50%, #047857 100%);
+  --accent-gradient-text: linear-gradient(135deg, #ffffff 15%, #a7f3d0 45%, #10b981 85%);
+  --accent-badge-bg: rgba(16, 185, 129, 0.08);
+  --accent-badge-border: rgba(16, 185, 129, 0.25);
+  --orb-1: radial-gradient(circle, rgba(16, 185, 129, 0.26) 0%, rgba(5, 223, 114, 0.08) 70%, transparent 100%);
+  --orb-2: radial-gradient(circle, rgba(5, 223, 114, 0.22) 0%, rgba(52, 211, 153, 0.05) 70%, transparent 100%);
+  --orb-3: radial-gradient(circle, rgba(52, 211, 153, 0.16) 0%, transparent 70%);
+  --cyber-grid-line-x: rgba(16, 185, 129, 0.06);
+  --cyber-grid-line-y: rgba(5, 223, 114, 0.06);
 }
 
 /* =========================================================
    LIGHT MODE DESIGN ADAPTATION (BESPOKE FROSTED GLASS)
 ========================================================= */
 [data-mode="light"] {
-  --bg-deep: #f3f5f9;
-  --bg-surface: rgba(255, 255, 255, 0.82);
-  --bg-surface-hover: rgba(255, 255, 255, 0.95);
+  --bg-deep: #f1f5f9;
+  --bg-surface: rgba(255, 255, 255, 0.92);
+  --bg-surface-hover: #ffffff;
 
-  --text-main: #0b1120;
-  --text-muted: #475569;
-  --text-dim: #64748b;
+  --text-main: #090d16;
+  --text-muted: #334155;
+  --text-dim: #475569;
 
-  --border-subtle: rgba(15, 23, 42, 0.09);
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-strong: rgba(15, 23, 42, 0.22);
 
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-highlight: rgba(255, 255, 255, 0.95);
-  --glass-border: 1px solid rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-highlight: rgba(255, 255, 255, 0.98);
+  --glass-border: 1px solid rgba(15, 23, 42, 0.12);
 
   --shadow-sm: 0 4px 20px rgba(15, 23, 42, 0.06);
   --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.1), 0 0 25px var(--accent-glow);
 
-  --navbar-bg: rgba(255, 255, 255, 0.82);
-  --dock-bg: rgba(255, 255, 255, 0.88);
+  --navbar-bg: rgba(255, 255, 255, 0.92);
+  --dock-bg: rgba(255, 255, 255, 0.94);
+  --matrix-green: #059669;
+}
+
+/* Light Mode Accent Palettes — Fine-tuned for AAA Contrast & Vibrancy */
+[data-mode="light"][data-theme="webgl"] {
+  --accent-primary: #0284c7;
+  --accent-secondary: #6d28d9;
+  --accent-tertiary: #db2777;
+  --accent-glow: rgba(2, 132, 199, 0.25);
+  --accent-glow-secondary: rgba(109, 40, 217, 0.22);
+  --accent-badge-bg: rgba(2, 132, 199, 0.09);
+  --accent-badge-border: rgba(2, 132, 199, 0.3);
+  --accent-gradient: linear-gradient(135deg, #0284c7 0%, #6d28d9 100%);
+  --accent-gradient-text: linear-gradient(135deg, #090d16 15%, #6d28d9 55%, #0284c7 100%);
+}
+
+[data-mode="light"][data-theme="desert"] {
+  --accent-primary: #d97706;
+  --accent-secondary: #c2410c;
+  --accent-tertiary: #b45309;
+  --accent-glow: rgba(217, 119, 6, 0.25);
+  --accent-glow-secondary: rgba(194, 65, 12, 0.22);
+  --accent-badge-bg: rgba(217, 119, 6, 0.09);
+  --accent-badge-border: rgba(217, 119, 6, 0.3);
+  --accent-gradient: linear-gradient(135deg, #d97706 0%, #c2410c 100%);
+  --accent-gradient-text: linear-gradient(135deg, #090d16 15%, #c2410c 55%, #b45309 100%);
+}
+
+[data-mode="light"][data-theme="driveby"] {
+  --accent-primary: #e11d48;
+  --accent-secondary: #c026d3;
+  --accent-tertiary: #be185d;
+  --accent-glow: rgba(225, 29, 72, 0.25);
+  --accent-glow-secondary: rgba(192, 38, 211, 0.22);
+  --accent-badge-bg: rgba(225, 29, 72, 0.09);
+  --accent-badge-border: rgba(225, 29, 72, 0.3);
+  --accent-gradient: linear-gradient(135deg, #e11d48 0%, #c026d3 100%);
+  --accent-gradient-text: linear-gradient(135deg, #090d16 15%, #be185d 55%, #e11d48 100%);
+}
+
+[data-mode="light"][data-theme="flow"] {
+  --accent-primary: #059669;
+  --accent-secondary: #047857;
+  --accent-tertiary: #10b981;
+  --accent-glow: rgba(5, 150, 105, 0.25);
+  --accent-glow-secondary: rgba(4, 120, 87, 0.22);
+  --accent-badge-bg: rgba(5, 150, 105, 0.09);
+  --accent-badge-border: rgba(5, 150, 105, 0.3);
+  --accent-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
+  --accent-gradient-text: linear-gradient(135deg, #090d16 15%, #047857 55%, #059669 100%);
 }
 
 [data-mode="light"] html,
@@ -171,15 +222,15 @@
 }
 
 [data-mode="light"] .video-overlay {
-  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(243, 245, 249, 0.88) 75%, #f3f5f9 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(241, 245, 249, 0.88) 75%, #f1f5f9 100%);
 }
 
 [data-mode="light"] .cyber-grid {
   background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+    linear-gradient(to right, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
     linear-gradient(to bottom, var(--accent-primary) 1px, transparent 1px);
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 85%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 85%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 85%);
 }
 
 [data-mode="light"] .ambient-glow {
@@ -192,38 +243,39 @@
 }
 
 [data-mode="light"] h2.section-title {
-  color: #0b1120;
+  color: #090d16;
 }
 
 [data-mode="light"] .section-header .section-label {
   background: var(--accent-badge-bg);
   border-color: var(--accent-badge-border);
   color: var(--accent-primary);
+  font-weight: 600;
 }
 
 [data-mode="light"][data-theme="webgl"] .gradient-text {
-  background: linear-gradient(135deg, #0b1120 20%, #7c3aed 70%, #0284c7 100%);
+  background: linear-gradient(135deg, #090d16 20%, #6d28d9 70%, #0284c7 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 [data-mode="light"][data-theme="desert"] .gradient-text {
-  background: linear-gradient(135deg, #0b1120 20%, #c2410c 70%, #d97706 100%);
+  background: linear-gradient(135deg, #090d16 20%, #c2410c 70%, #b45309 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 [data-mode="light"][data-theme="driveby"] .gradient-text {
-  background: linear-gradient(135deg, #0b1120 20%, #c026d3 70%, #e11d48 100%);
+  background: linear-gradient(135deg, #090d16 20%, #be185d 70%, #e11d48 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 [data-mode="light"][data-theme="flow"] .gradient-text {
-  background: linear-gradient(135deg, #0b1120 20%, #1d4ed8 70%, #0891b2 100%);
+  background: linear-gradient(135deg, #090d16 20%, #047857 70%, #059669 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -272,9 +324,13 @@ body {
 
 /* Selection Color */
 ::selection {
-  background: rgba(0, 240, 255, 0.25);
+  background: var(--accent-primary);
+  color: #030307;
+}
+
+[data-mode="light"] ::selection {
+  background: var(--accent-primary);
   color: #ffffff;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
 }
 
 /* Scrollbar */
@@ -285,11 +341,11 @@ body {
   background: var(--bg-deep);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--neon-purple);
+  background: var(--accent-secondary);
 }
 
 /* =========================================================
@@ -491,7 +547,7 @@ h2.section-title {
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1.05;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 @media (max-width: 768px) {
