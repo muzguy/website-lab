@@ -32,19 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. Live IST Clock
   initLiveClock();
 
-  // 6. Atmosphere / Background Controller
-  initAtmosphereController(webglApp);
-
-  // 7. Futuristic Web Audio Sound FX
+  // 6. Futuristic Web Audio Sound FX
   const soundFX = initAudioSynthesizer();
 
-  // 8. Email Clipboard Copy
+  // 7. Visual Theme Controller (WebGL, Desert, Driveby, Flow)
+  initAtmosphereController(webglApp, soundFX);
+
+  // 8. Light / Dark Display Mode Controller
+  initThemeModeToggle(webglApp, soundFX);
+
+  // 9. Email Clipboard Copy
   initEmailCopy(soundFX);
 
-  // 9. Mobile Navigation Drawer
+  // 10. Mobile Navigation Drawer
   initMobileNav();
 
-  // 10. Cyber Console Greeting
+  // 11. Cyber Console Greeting
   printCyberBanner();
 });
 
@@ -72,54 +75,105 @@ function initLiveClock() {
 }
 
 /* =========================================================
-   ATMOSPHERE / BACKGROUND VIDEO SWITCHER
+   VISUAL THEME SWITCHER (ATMOSPHERE CONTROLLER)
 ========================================================= */
-function initAtmosphereController(webglApp) {
-  const videoEl = document.getElementById('bgVideo');
+function initAtmosphereController(webglApp, soundFX) {
   const atmoButtons = document.querySelectorAll('.atmo-btn');
-  if (!videoEl || !atmoButtons.length) return;
+  if (!atmoButtons.length) return;
 
-  const videoSources = {
-    desert: 'assets/desert.mp4',
-    driveby: 'assets/driveby.mp4',
-    stock: 'assets/stock.mp4'
-  };
+  // Retrieve saved theme or default to 'webgl'
+  let currentTheme = 'webgl';
+  try {
+    const saved = localStorage.getItem('muzguy_theme');
+    if (saved) currentTheme = saved;
+  } catch (e) {}
+
+  const currentMode = document.documentElement.getAttribute('data-mode') || 'dark';
+
+  function updateActiveButton(theme) {
+    atmoButtons.forEach((btn) => {
+      const btnTheme = btn.getAttribute('data-theme') || btn.getAttribute('data-mode');
+      if (btnTheme === theme) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  // Sync initial state
+  updateActiveButton(currentTheme);
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  if (webglApp && typeof webglApp.setTheme === 'function') {
+    webglApp.setTheme(currentTheme, currentMode);
+  }
 
   atmoButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const mode = btn.getAttribute('data-mode');
+      const theme = btn.getAttribute('data-theme') || btn.getAttribute('data-mode');
+      if (!theme || theme === currentTheme) return;
 
-      // Update active button state
-      atmoButtons.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
+      currentTheme = theme;
+      updateActiveButton(currentTheme);
 
-      if (mode === 'webgl') {
-        // Fade out and pause video
-        videoEl.classList.remove('active');
-        setTimeout(() => {
-          videoEl.pause();
-        }, 500);
+      // 1. Smoothly transition website's accent colors via data-theme
+      document.documentElement.setAttribute('data-theme', currentTheme);
 
-        // Resume Three.js
-        if (webglApp) webglApp.resume();
-      } else if (videoSources[mode]) {
-        // Pause WebGL to conserve GPU
-        if (webglApp) webglApp.pause();
+      // 2. Persist user preference
+      try {
+        localStorage.setItem('muzguy_theme', currentTheme);
+      } catch (e) {}
 
-        // Switch video source
-        videoEl.classList.remove('active');
-        setTimeout(() => {
-          videoEl.src = videoSources[mode];
-          videoEl.load();
-          videoEl.play().then(() => {
-            videoEl.classList.add('active');
-          }).catch((e) => {
-            console.warn('Autoplay prevented for video:', e);
-            videoEl.classList.add('active');
-          });
-        }, 300);
+      // 3. Update 3D WebGL particle colors
+      const activeMode = document.documentElement.getAttribute('data-mode') || 'dark';
+      if (webglApp && typeof webglApp.setTheme === 'function') {
+        webglApp.setTheme(currentTheme, activeMode);
+      }
+
+      // 4. Audio Feedback
+      if (soundFX && soundFX.playSwitch) {
+        soundFX.playSwitch();
       }
     });
+  });
+}
+
+/* =========================================================
+   LIGHT / DARK DISPLAY MODE CONTROLLER
+========================================================= */
+function initThemeModeToggle(webglApp, soundFX) {
+  const modeBtn = document.getElementById('themeModeToggle');
+  if (!modeBtn) return;
+
+  let currentMode = 'dark';
+  try {
+    const saved = localStorage.getItem('muzguy_mode');
+    if (saved) currentMode = saved;
+  } catch (e) {}
+
+  document.documentElement.setAttribute('data-mode', currentMode);
+
+  modeBtn.addEventListener('click', () => {
+    currentMode = currentMode === 'dark' ? 'light' : 'dark';
+
+    // 1. Smoothly adapt the entire UI to dark or light mode
+    document.documentElement.setAttribute('data-mode', currentMode);
+
+    // 2. Persist user preference
+    try {
+      localStorage.setItem('muzguy_mode', currentMode);
+    } catch (e) {}
+
+    // 3. Update 3D WebGL particle contrast and colors for the current theme
+    const activeTheme = document.documentElement.getAttribute('data-theme') || 'webgl';
+    if (webglApp && typeof webglApp.setTheme === 'function') {
+      webglApp.setTheme(activeTheme, currentMode);
+    }
+
+    // 4. Audio Feedback
+    if (soundFX && soundFX.playSwitch) {
+      soundFX.playSwitch();
+    }
   });
 }
 
@@ -194,6 +248,10 @@ function initAudioSynthesizer() {
     playSuccess: () => {
       playTone(587.33, 'sine', 0.08, 0.05);
       setTimeout(() => playTone(880, 'sine', 0.12, 0.05), 80);
+    },
+    playSwitch: () => {
+      playTone(523.25, 'triangle', 0.05, 0.03);
+      setTimeout(() => playTone(783.99, 'sine', 0.08, 0.04), 50);
     }
   };
 }

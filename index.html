@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="webgl" data-mode="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -8,6 +8,18 @@
   
   <title>muzguy — Rohit | Futuristic Portfolio & Developer Lab</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- Instant Theme & Mode Pre-hydration (Prevents FOUT) -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('muzguy_theme');
+        if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+        const savedMode = localStorage.getItem('muzguy_mode');
+        if (savedMode) document.documentElement.setAttribute('data-mode', savedMode);
+      } catch (e) {}
+    })();
+  </script>
 
   <!-- Modern Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,19 +41,14 @@
   </div>
 
   <!-- =========================================================
-       CINEMATIC BACKGROUND LAYERS
+       CINEMATIC BACKGROUND LAYERS (PERMANENT 3D WEBGL)
   ========================================================= -->
-  <!-- 1. Interactive Three.js WebGL Particle Constellation -->
+  <!-- Interactive Three.js WebGL Particle Constellation -->
   <div id="bg-canvas-container">
     <canvas id="three-canvas"></canvas>
   </div>
 
-  <!-- 2. Cinematic Video Background (with Atmosphere Switcher) -->
-  <video id="bgVideo" muted loop playsinline preload="none">
-    <source src="assets/desert.mp4" type="video/mp4">
-  </video>
-
-  <!-- 3. Gradient Vignette & Cyber Grid Ground -->
+  <!-- Gradient Vignette & Cyber Grid Ground -->
   <div class="video-overlay"></div>
   <div class="cyber-grid"></div>
 
@@ -84,6 +91,24 @@
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <line x1="23" y1="9" x2="17" y2="15"></line>
             <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+
+        <!-- Light / Dark Mode Toggle Button -->
+        <button class="theme-mode-btn" id="themeModeToggle" aria-label="Toggle Light/Dark Display Mode" title="Toggle Light/Dark Mode">
+          <svg class="mode-icon icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="mode-icon icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         </button>
 
@@ -488,20 +513,20 @@
   </section>
 
   <!-- =========================================================
-       ATMOSPHERE DOCK CONTROLLER (HUD SWITCHER)
+       VISUAL THEME SWITCHER (ATMOSPHERE CONTROLLER)
   ========================================================= -->
-  <div class="atmosphere-dock" id="atmoDock">
-    <span class="atmo-label">Atmosphere</span>
-    <button class="atmo-btn active" data-mode="webgl" title="WebGL Interactive 3D Particles">
+  <div class="atmosphere-dock" id="atmoDock" role="toolbar" aria-label="Visual Theme Switcher">
+    <span class="atmo-label">Theme</span>
+    <button class="atmo-btn active" data-theme="webgl" data-mode="webgl" title="Cyber Cyan Futuristic Theme">
       <span>🌌 WebGL</span>
     </button>
-    <button class="atmo-btn" data-mode="desert" title="Cinematic Desert Sunset">
+    <button class="atmo-btn" data-theme="desert" data-mode="desert" title="Warm Amber Desert Theme">
       <span>🏜️ Desert</span>
     </button>
-    <button class="atmo-btn" data-mode="driveby" title="Cyber City Driveby">
+    <button class="atmo-btn" data-theme="driveby" data-mode="driveby" title="Cinematic Crimson Driveby Theme">
       <span>🏎️ Driveby</span>
     </button>
-    <button class="atmo-btn" data-mode="stock" title="Quantum Flow Horizon">
+    <button class="atmo-btn" data-theme="flow" data-mode="flow" title="Flowing Azure Blue Theme">
       <span>🌊 Flow</span>
     </button>
   </div>

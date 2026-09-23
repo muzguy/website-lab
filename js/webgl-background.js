@@ -1,8 +1,83 @@
 /**
  * WEBGL-BACKGROUND.JS
  * High-performance Three.js interactive 3D particle constellation & neural warp.
- * Features mouse gravity, scroll depth parallax, and auto-pause when inactive.
+ * Features mouse gravity, scroll depth parallax, dynamic theme palettes, and battery saver pause.
  */
+
+const THEME_PALETTES = {
+  webgl: {
+    dark: [
+      new THREE.Color(0x00f0ff), // Cyber Cyan
+      new THREE.Color(0x8b5cf6), // Neon Purple
+      new THREE.Color(0xec4899), // Plasma Pink
+      new THREE.Color(0xffffff)  // Pure White
+    ],
+    light: [
+      new THREE.Color(0x0284c7), // Cyan/Sky
+      new THREE.Color(0x7c3aed), // Deep Purple
+      new THREE.Color(0xdb2777), // Deep Pink
+      new THREE.Color(0x0f172a)  // Slate Obsidian
+    ],
+    line1: { r: 0.0, g: 0.94, b: 1.0 },
+    line2: { r: 0.55, g: 0.36, b: 0.96 },
+    lineLight1: { r: 0.01, g: 0.52, b: 0.78 },
+    lineLight2: { r: 0.49, g: 0.23, b: 0.93 }
+  },
+  desert: {
+    dark: [
+      new THREE.Color(0xfbbf24), // Amber Gold
+      new THREE.Color(0xf59e0b), // Amber
+      new THREE.Color(0xea580c), // Flame Orange
+      new THREE.Color(0xfef3c7)  // Warm Sand White
+    ],
+    light: [
+      new THREE.Color(0xd97706), // Rich Amber
+      new THREE.Color(0xc2410c), // Solar Flame
+      new THREE.Color(0xb45309), // Dark Ochre
+      new THREE.Color(0x78350f)  // Deep Sienna
+    ],
+    line1: { r: 0.98, g: 0.75, b: 0.14 },
+    line2: { r: 0.92, g: 0.35, b: 0.05 },
+    lineLight1: { r: 0.85, g: 0.47, b: 0.02 },
+    lineLight2: { r: 0.76, g: 0.25, b: 0.05 }
+  },
+  driveby: {
+    dark: [
+      new THREE.Color(0xff1a53), // Electric Crimson
+      new THREE.Color(0xd946ef), // Electric Magenta
+      new THREE.Color(0xf43f5e), // Rose Neon
+      new THREE.Color(0xffe4e6)  // Crystal Rose White
+    ],
+    light: [
+      new THREE.Color(0xe11d48), // Deep Rose Red
+      new THREE.Color(0xc026d3), // Rich Magenta
+      new THREE.Color(0xbe123c), // Crimson
+      new THREE.Color(0x881337)  // Deep Burgundy
+    ],
+    line1: { r: 1.0, g: 0.10, b: 0.33 },
+    line2: { r: 0.85, g: 0.27, b: 0.94 },
+    lineLight1: { r: 0.88, g: 0.11, b: 0.28 },
+    lineLight2: { r: 0.75, g: 0.15, b: 0.83 }
+  },
+  flow: {
+    dark: [
+      new THREE.Color(0x38bdf8), // Sky Blue
+      new THREE.Color(0x06b6d4), // Teal Cyan
+      new THREE.Color(0x2563eb), // Electric Azure
+      new THREE.Color(0xe0f2fe)  // Ice Blue White
+    ],
+    light: [
+      new THREE.Color(0x0284c7), // Ocean Blue
+      new THREE.Color(0x0891b2), // Deep Teal
+      new THREE.Color(0x1d4ed8), // Cobalt Blue
+      new THREE.Color(0x0c4a6e)  // Deep Navy
+    ],
+    line1: { r: 0.02, g: 0.71, b: 0.83 },
+    line2: { r: 0.15, g: 0.39, b: 0.92 },
+    lineLight1: { r: 0.03, g: 0.57, b: 0.7 },
+    lineLight2: { r: 0.11, g: 0.31, b: 0.85 }
+  }
+};
 
 class WebGLBackground {
   constructor(canvasId) {
@@ -29,8 +104,14 @@ class WebGLBackground {
     this.scrollProgress = 0;
     this.targetScrollProgress = 0;
     this.isRunning = true;
+    this.isModeActive = true;
     this.wasRunningBeforeHidden = false;
     this.animationFrameId = null;
+
+    this.currentTheme = document.documentElement.getAttribute('data-theme') || 'webgl';
+    this.currentMode = document.documentElement.getAttribute('data-mode') || 'dark';
+    this.activeLineColor1 = { r: 0.0, g: 0.94, b: 1.0 };
+    this.activeLineColor2 = { r: 0.55, g: 0.36, b: 0.96 };
 
     this.init();
   }
@@ -61,10 +142,13 @@ class WebGLBackground {
     // 3. Create Particle Field
     this.createParticles();
 
-    // 4. Bind events
+    // 4. Apply initial theme colors immediately
+    this.setTheme(this.currentTheme, this.currentMode);
+
+    // 5. Bind events
     this.bindEvents();
 
-    // 5. Start Render Loop
+    // 6. Start Render Loop
     this.render();
   }
 
@@ -72,14 +156,6 @@ class WebGLBackground {
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(this.particleCount * 3);
     const colors = new Float32Array(this.particleCount * 3);
-
-    // Cyan, Neon Purple, and White color palette
-    const colorChoices = [
-      new THREE.Color(0x00f0ff), // Cyber Cyan
-      new THREE.Color(0x8b5cf6), // Neon Purple
-      new THREE.Color(0xec4899), // Plasma Pink
-      new THREE.Color(0xffffff)  // Pure White
-    ];
 
     const bounds = 800;
     for (let i = 0; i < this.particleCount; i++) {
@@ -95,18 +171,16 @@ class WebGLBackground {
         z: (Math.random() - 0.5) * 0.45
       });
 
-      // Assign subtle cyber color
-      const chosenColor = colorChoices[Math.floor(Math.random() * colorChoices.length)];
-      colors[i3] = chosenColor.r;
-      colors[i3 + 1] = chosenColor.g;
-      colors[i3 + 2] = chosenColor.b;
+      colors[i3] = 0.0;
+      colors[i3 + 1] = 0.94;
+      colors[i3 + 2] = 1.0;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     this.particlePositions = positions;
 
-    // Glowing particle texture using custom canvas shader texture
+    // Glowing particle texture
     const particleTexture = this.generateParticleTexture();
 
     const particleMaterial = new THREE.PointsMaterial({
@@ -151,9 +225,9 @@ class WebGLBackground {
 
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.2, 'rgba(0, 240, 255, 0.8)');
-    gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.25)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(0.25, 'rgba(255, 255, 255, 0.9)');
+    gradient.addColorStop(0.55, 'rgba(255, 255, 255, 0.3)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
@@ -256,24 +330,22 @@ class WebGLBackground {
           const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
           if (dist < this.maxDistance) {
-            const alpha = (1.0 - dist / this.maxDistance) * 0.4;
-
             linePositions[lineVertexCount * 3] = positions[i3];
             linePositions[lineVertexCount * 3 + 1] = positions[i3 + 1];
             linePositions[lineVertexCount * 3 + 2] = positions[i3 + 2];
 
-            lineColors[lineVertexCount * 3] = 0.0;
-            lineColors[lineVertexCount * 3 + 1] = 0.94;
-            lineColors[lineVertexCount * 3 + 2] = 1.0;
+            lineColors[lineVertexCount * 3] = this.activeLineColor1.r;
+            lineColors[lineVertexCount * 3 + 1] = this.activeLineColor1.g;
+            lineColors[lineVertexCount * 3 + 2] = this.activeLineColor1.b;
             lineVertexCount++;
 
             linePositions[lineVertexCount * 3] = positions[j3];
             linePositions[lineVertexCount * 3 + 1] = positions[j3 + 1];
             linePositions[lineVertexCount * 3 + 2] = positions[j3 + 2];
 
-            lineColors[lineVertexCount * 3] = 0.55;
-            lineColors[lineVertexCount * 3 + 1] = 0.36;
-            lineColors[lineVertexCount * 3 + 2] = 0.96;
+            lineColors[lineVertexCount * 3] = this.activeLineColor2.r;
+            lineColors[lineVertexCount * 3 + 1] = this.activeLineColor2.g;
+            lineColors[lineVertexCount * 3 + 2] = this.activeLineColor2.b;
             lineVertexCount++;
           }
         }
@@ -293,16 +365,75 @@ class WebGLBackground {
     this.animationFrameId = requestAnimationFrame(() => this.render());
   }
 
+  setTheme(themeName, mode = 'dark') {
+    this.currentTheme = themeName || 'webgl';
+    this.currentMode = mode || 'dark';
+
+    const paletteObj = THEME_PALETTES[this.currentTheme] || THEME_PALETTES.webgl;
+    const isLight = this.currentMode === 'light';
+    const colorChoices = isLight ? paletteObj.light : paletteObj.dark;
+
+    // Update dynamic line colors
+    this.activeLineColor1 = isLight ? paletteObj.lineLight1 : paletteObj.line1;
+    this.activeLineColor2 = isLight ? paletteObj.lineLight2 : paletteObj.line2;
+
+    // Adapt material blending and opacity for crisp contrast in light mode
+    if (this.particles && this.particles.material) {
+      if (isLight) {
+        this.particles.material.blending = THREE.NormalBlending;
+        this.particles.material.opacity = 0.9;
+        this.particles.material.size = 5.0;
+      } else {
+        this.particles.material.blending = THREE.AdditiveBlending;
+        this.particles.material.opacity = 0.85;
+        this.particles.material.size = 4.5;
+      }
+      this.particles.material.needsUpdate = true;
+    }
+
+    if (this.lineMesh && this.lineMesh.material) {
+      if (isLight) {
+        this.lineMesh.material.blending = THREE.NormalBlending;
+        this.lineMesh.material.opacity = 0.28;
+      } else {
+        this.lineMesh.material.blending = THREE.AdditiveBlending;
+        this.lineMesh.material.opacity = 0.22;
+      }
+      this.lineMesh.material.needsUpdate = true;
+    }
+
+    // Refresh particle colors buffer
+    if (this.particles && this.particles.geometry) {
+      const colors = this.particles.geometry.attributes.color.array;
+      for (let i = 0; i < this.particleCount; i++) {
+        const i3 = i * 3;
+        const chosenColor = colorChoices[i % colorChoices.length];
+        colors[i3] = chosenColor.r;
+        colors[i3 + 1] = chosenColor.g;
+        colors[i3 + 2] = chosenColor.b;
+      }
+      this.particles.geometry.attributes.color.needsUpdate = true;
+    }
+  }
+
+  setMode(mode) {
+    // Keep WebGL background permanently active
+    const container = document.getElementById('bg-canvas-container');
+    if (container) container.classList.remove('hidden');
+    this.resume();
+  }
+
   pause() {
     this.isRunning = false;
-    if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
-    if (this.canvas) this.canvas.style.display = 'none';
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   resume() {
     if (this.isRunning) return;
     this.isRunning = true;
-    if (this.canvas) this.canvas.style.display = 'block';
     this.render();
   }
 }

@@ -70,11 +70,11 @@
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 240, 255, 0.35);
+  border-color: var(--accent-glow);
   box-shadow: 
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 25px 60px rgba(0, 0, 0, 0.6),
-    0 0 45px rgba(139, 92, 246, 0.18);
+    0 0 45px var(--accent-glow-secondary);
 }
 
 /* Cyber Corner Brackets */
@@ -89,14 +89,14 @@
   right: 10px;
   width: 14px;
   height: 14px;
-  border-top: 2px solid rgba(0, 240, 255, 0.45);
-  border-right: 2px solid rgba(0, 240, 255, 0.45);
+  border-top: 2px solid var(--accent-glow);
+  border-right: 2px solid var(--accent-glow);
   pointer-events: none;
   transition: all 0.35s ease;
 }
 
 .cyber-card:hover::after {
-  border-color: var(--cyber-cyan);
+  border-color: var(--accent-primary);
   width: 20px;
   height: 20px;
 }
@@ -121,16 +121,16 @@
 
 .tech-pill:hover {
   color: #ffffff;
-  background: rgba(139, 92, 246, 0.15);
-  border-color: var(--neon-purple);
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-secondary);
   transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 8px 25px var(--accent-glow-secondary);
 }
 
 .tech-pill.active {
-  background: rgba(0, 240, 255, 0.12);
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 /* Live Status Dot Indicator */
@@ -211,7 +211,7 @@
 .holo-btn:hover {
   transform: translateY(-4px);
   border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-glow-secondary);
 }
 
 .holo-btn-primary {
@@ -223,20 +223,89 @@
 
 .holo-btn-primary:hover {
   background: #f0f0f5;
-  box-shadow: 0 16px 45px rgba(255, 255, 255, 0.35), 0 0 30px rgba(0, 240, 255, 0.4);
+  box-shadow: 0 16px 45px rgba(255, 255, 255, 0.35), 0 0 30px var(--accent-glow);
   color: #000000;
 }
 
 .holo-btn-cyan {
-  background: rgba(0, 240, 255, 0.08);
-  border-color: rgba(0, 240, 255, 0.3);
-  color: var(--cyber-cyan);
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-badge-border);
+  color: var(--accent-primary);
 }
 
 .holo-btn-cyan:hover {
-  background: rgba(0, 240, 255, 0.2);
-  border-color: var(--cyber-cyan);
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 30px var(--accent-glow);
+  color: #ffffff;
+}
+
+/* =========================================================
+   LIGHT MODE GLASS & COMPONENT ADAPTATIONS
+========================================================= */
+[data-mode="light"] .glass-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.75) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    0 15px 35px rgba(15, 23, 42, 0.05);
+}
+
+[data-mode="light"] .glass-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.68) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+[data-mode="light"] .glass-card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 20px 45px rgba(15, 23, 42, 0.1),
+    0 0 35px var(--accent-glow);
+}
+
+[data-mode="light"] .glass-card::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, transparent 70%);
+}
+
+[data-mode="light"] .tech-pill {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  color: var(--text-muted);
+}
+
+[data-mode="light"] .tech-pill:hover {
+  color: #0b1120;
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-secondary);
+}
+
+[data-mode="light"] .holo-btn {
+  background: rgba(255, 255, 255, 0.85);
+  color: #0b1120;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+[data-mode="light"] .holo-btn:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08), 0 0 20px var(--accent-glow);
+}
+
+[data-mode="light"] .holo-btn-primary {
+  background: #0b1120;
+  color: #ffffff;
+  border-color: #0b1120;
+  box-shadow: 0 8px 25px rgba(11, 17, 32, 0.2);
+}
+
+[data-mode="light"] .holo-btn-primary:hover {
+  background: #1e293b;
+  color: #ffffff;
+  box-shadow: 0 12px 35px rgba(11, 17, 32, 0.3), 0 0 25px var(--accent-glow);
 }
 
 /* =========================================================

@@ -226,8 +226,56 @@ body.cursor-hover-card #custom-cursor-dot {
 
 .audio-toggle-btn:hover {
   color: #ffffff;
-  border-color: var(--cyber-cyan);
-  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--accent-primary);
+  background: var(--accent-badge-bg);
+}
+
+/* Theme Light/Dark Mode Button */
+.theme-mode-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-mode-btn:hover {
+  color: #ffffff;
+  border-color: var(--accent-primary);
+  background: var(--accent-badge-bg);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.theme-mode-btn .mode-icon {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+/* Dark mode (default): show sun, hide moon */
+[data-mode="dark"] .theme-mode-btn .icon-moon {
+  display: none;
+}
+[data-mode="dark"] .theme-mode-btn .icon-sun {
+  display: block;
+}
+
+/* Light mode: show moon, hide sun */
+[data-mode="light"] .theme-mode-btn .icon-sun {
+  display: none;
+}
+[data-mode="light"] .theme-mode-btn .icon-moon {
+  display: block;
+}
+
+.theme-mode-btn:active .mode-icon {
+  transform: rotate(45deg) scale(0.9);
 }
 
 /* Mobile Toggle Hamburger */
@@ -401,6 +449,9 @@ body.cursor-hover-card #custom-cursor-dot {
   display: flex;
   align-items: center;
   gap: 5px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .atmo-btn:hover {
@@ -409,10 +460,10 @@ body.cursor-hover-card #custom-cursor-dot {
 }
 
 .atmo-btn.active {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 /* =========================================================
@@ -1178,4 +1229,176 @@ footer {
     padding: 4px 6px;
     font-size: 0.62rem;
   }
+}
+
+/* =========================================================
+   LIGHT MODE COMPONENT ADAPTATIONS
+   Bespoke Frosted Glass & Precision Typography
+========================================================= */
+[data-mode="light"] .navbar {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06);
+}
+
+[data-mode="light"] .brand-logo {
+  color: #0b1120;
+}
+
+[data-mode="light"] .nav-link {
+  color: #475569;
+}
+
+[data-mode="light"] .nav-link:hover {
+  color: var(--accent-primary);
+}
+
+[data-mode="light"] .time-chip {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #475569;
+}
+
+[data-mode="light"] .audio-toggle-btn,
+[data-mode="light"] .theme-mode-btn {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #475569;
+}
+
+[data-mode="light"] .audio-toggle-btn:hover,
+[data-mode="light"] .theme-mode-btn:hover {
+  background: var(--accent-badge-bg);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+[data-mode="light"] .mobile-nav-toggle {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+[data-mode="light"] .mobile-nav-toggle span {
+  background: #0b1120;
+}
+
+[data-mode="light"] .mobile-drawer {
+  background: rgba(255, 255, 255, 0.96);
+  border-left: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: -20px 0 60px rgba(15, 23, 42, 0.12);
+}
+
+[data-mode="light"] .mobile-drawer-links a {
+  color: #0b1120;
+}
+
+[data-mode="light"] .mobile-drawer-footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: #64748b;
+}
+
+[data-mode="light"] .hero-title {
+  color: #0b1120;
+}
+
+[data-mode="light"] .hero-subtitle {
+  color: #475569;
+}
+
+[data-mode="light"] .glow-name {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+[data-mode="light"] .mouse-pill {
+  border-color: rgba(15, 23, 42, 0.2);
+}
+
+[data-mode="light"] .about-bio {
+  color: #334155;
+}
+
+[data-mode="light"] .about-bio strong {
+  color: #0b1120;
+}
+
+[data-mode="light"] .stat-card {
+  background: radial-gradient(circle at 50% 0%, var(--accent-badge-bg), transparent 70%);
+}
+
+[data-mode="light"] .stat-desc {
+  color: #475569;
+}
+
+[data-mode="light"] .skill-category-title {
+  color: #0b1120;
+}
+
+[data-mode="light"] .project-title {
+  color: #0b1120;
+}
+
+[data-mode="light"] .project-desc {
+  color: #475569;
+}
+
+[data-mode="light"] .mindset-title {
+  color: #0b1120;
+}
+
+[data-mode="light"] .mindset-desc {
+  color: #475569;
+}
+
+[data-mode="light"] .atmosphere-dock {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+[data-mode="light"] .atmo-label {
+  color: #64748b;
+}
+
+[data-mode="light"] .atmo-btn {
+  color: #475569;
+}
+
+[data-mode="light"] .atmo-btn:hover {
+  color: #0b1120;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+[data-mode="light"] .email-btn {
+  color: #0b1120;
+  border-bottom: 2px solid rgba(15, 23, 42, 0.2);
+}
+
+[data-mode="light"] .email-btn:hover {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+[data-mode="light"] .social-tile {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #475569;
+}
+
+[data-mode="light"] .social-tile:hover {
+  color: #0b1120;
+  border-color: var(--accent-primary);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+[data-mode="light"] footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  color: #64748b;
+}
+
+[data-mode="light"] #custom-cursor-ring {
+  border-color: rgba(15, 23, 42, 0.4);
 }
